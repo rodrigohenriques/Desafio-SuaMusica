@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import br.com.suamusica.app.R;
-import br.com.suamusica.app.model.entities.Album;
+import br.com.suamusica.domain.entities.Album;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -41,7 +41,14 @@ public class TrendingMusicAdapter extends RecyclerView.Adapter<TrendingMusicAdap
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Album album = albums.get(position);
-        Picasso.with(mContext).load(album.coverUrl).into(holder.albumCoverImage);
+
+        Glide.with(mContext)
+                .load(album.coverUrl)
+                .fitCenter()
+                .crossFade()
+                .placeholder(R.drawable.placeholder)
+                .into(holder.albumCoverImage);
+
         holder.albumAuthor.setText(album.author);
         holder.albumName.setText(album.name);
     }

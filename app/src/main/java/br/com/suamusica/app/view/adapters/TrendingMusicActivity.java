@@ -19,6 +19,7 @@ public class TrendingMusicActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recycler_view_grid) RecyclerView mRecyclerView;
+
     private StaggeredGridLayoutManager mStaggeredLayoutManager;
     private List<Album> albums;
 
@@ -45,7 +46,8 @@ public class TrendingMusicActivity extends AppCompatActivity {
 
         String a = "Rodrigo Cotton";
         String b = "novo cd";
-        String c = "";
+        String c = "http://file2.files.suamusica.com.br/39938/759754/cd_cover.png";
+
         mockAlbums.add(new Album(a, b, c));
 
         return mockAlbums;

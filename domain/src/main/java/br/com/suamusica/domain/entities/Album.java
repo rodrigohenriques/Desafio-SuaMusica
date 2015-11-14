@@ -1,4 +1,4 @@
-package br.com.suamusica.app.model.entities;
+package br.com.suamusica.domain.entities;
 
 public class Album {
     public final String author;
