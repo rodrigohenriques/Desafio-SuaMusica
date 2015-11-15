@@ -9,6 +9,8 @@
 
         <item name="android:navigationBarColor" tools:ignore="NewApi">@color/colorPrimaryDark</item>
         <item name="android:displayOptions">disableHome</item>
+
+        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,5 +21,11 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="BottomSheet.StyleDialog" parent="BottomSheet.Dialog">
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:windowAnimationStyle">@style/BottomSheet.Animation</item>
+        <item name="bs_listStyle">@style/BottomSheet.List</item>
+    </style>
 
 </resources>

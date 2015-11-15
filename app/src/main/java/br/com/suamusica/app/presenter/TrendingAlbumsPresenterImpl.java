@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import br.com.suamusica.app.R;
 import br.com.suamusica.app.entities.AlbumViewModel;
 import br.com.suamusica.app.presenter.view.TrendingMusicView;
 import br.com.suamusica.domain.entities.Album;
@@ -16,8 +17,9 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
 
     private ListTrendingAlbumsUseCase mListTrendingAlbumsUseCase;
     private TrendingMusicView mTrendingMusicView;
-    private boolean isLoading = false;
     private List<Album> mAlbumsCache;
+    private int mPage;
+    private QueryType mQueryType;
     private long mCacheExpirationTime;
 
     private static final long CACHE_TIME = 30000;
@@ -28,20 +30,51 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
     }
 
     @Override
-    public void queryData() {
-        if (shouldQueryData()) {
+    public void loadTrendingAlbumsEver() {
+        queryData(1, QueryType.ALWAYS);
+        changeTitle(R.string.title_trending_albums_ever);
+    }
+
+    private void changeTitle(int titleId) {
+        mTrendingMusicView.changeTitle(titleId);
+    }
+
+    @Override
+    public void loadTrendingAlbumsOfThisYear() {
+        queryData(1, QueryType.THIS_YEAR);
+        changeTitle(R.string.title_trending_albums_this_year);
+    }
+
+    @Override
+    public void loadTrendingAlbumsOfThisMonth() {
+        queryData(1, QueryType.THIS_MONTH);
+        changeTitle(R.string.title_trending_albums_this_month);
+    }
+
+    @Override
+    public void loadTrendingAlbumsOfThisWeek() {
+        queryData(1, QueryType.THIS_WEEK);
+        changeTitle(R.string.title_trending_albums_this_week);
+    }
+
+    private void queryData(final int page, final QueryType queryType) {
+        if (shouldQueryData(page, queryType)) {
             showLoading();
 
-            mListTrendingAlbumsUseCase.execute(1, QueryType.ALWAYS, new Callback<List<Album>>() {
+            mListTrendingAlbumsUseCase.execute(page, queryType, new Callback<List<Album>>() {
                 @Override
                 public void onSuccess(List<Album> albums) {
                     mAlbumsCache = albums;
                     mCacheExpirationTime = System.currentTimeMillis() + CACHE_TIME;
+                    mPage = page;
+                    mQueryType = queryType;
+
                     showData(albums);
                 }
 
                 @Override
-                public void onException(Exception e) {}
+                public void onException(Exception e) {
+                }
 
                 @Override
                 public void onPostExecute() {
@@ -51,12 +84,19 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
         }
     }
 
-    private boolean shouldQueryData() {
-        return !hasValidCache();
+    private boolean shouldQueryData(int page, QueryType queryType) {
+        return !hasValidCache(page, queryType);
+    }
+
+    private boolean hasValidCache(int page, QueryType queryType) {
+        return page == mPage &&
+                queryType == mQueryType &&
+                mAlbumsCache != null &&
+                System.currentTimeMillis() < mCacheExpirationTime;
     }
 
     private boolean hasValidCache() {
-        return mAlbumsCache != null && System.currentTimeMillis() < mCacheExpirationTime;
+        return mPage != 0 && mQueryType != null && hasValidCache(mPage, mQueryType);
     }
 
     @Override
@@ -65,16 +105,19 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
             mTrendingMusicView.openAlbumDetail(album.getId());
     }
 
-    private void showLoading() {
-        isLoading = true;
+    @Override
+    public void clickedAtFilterMenu() {
+        if (mTrendingMusicView != null) {
+            mTrendingMusicView.showQueryTypesToSelect();
+        }
+    }
 
+    private void showLoading() {
         if (mTrendingMusicView != null)
             mTrendingMusicView.showLoading();
     }
 
     private void hideLoading() {
-        isLoading = false;
-
         if (mTrendingMusicView != null)
             mTrendingMusicView.hideLoading();
     }
@@ -96,14 +139,10 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
     public void attachView(TrendingMusicView view) {
         mTrendingMusicView = view;
 
-        if (isLoading) {
-            showLoading();
-        } else {
-            hideLoading();
-        }
-
         if (hasValidCache()) {
             showData(mAlbumsCache);
+        } else {
+            loadTrendingAlbumsEver();
         }
     }
 }

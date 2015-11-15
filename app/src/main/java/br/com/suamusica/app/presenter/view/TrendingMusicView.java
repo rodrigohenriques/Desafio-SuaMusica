@@ -7,4 +7,6 @@ import br.com.suamusica.app.entities.AlbumViewModel;
 public interface TrendingMusicView extends View {
     void showData(List<AlbumViewModel> albums);
     void openAlbumDetail(int albumId);
+    void showQueryTypesToSelect();
+    void changeTitle(int titleId);
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/general" android:title="@string/query_type_general"/>
+    <item android:id="@+id/year" android:title="@string/query_type_year" />
+    <item android:id="@+id/month" android:title="@string/query_type_month" />
+    <item android:id="@+id/week" android:title="@string/query_type_week" />
+</menu>

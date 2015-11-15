@@ -1,7 +1,7 @@
 package br.com.suamusica.domain.entities;
 
 public enum QueryType {
-    ALWAYS("geral"), THIS_MONTH("mes"), THIS_WEEK("emana"), THIS_YEAR("ano");
+    ALWAYS("geral"), THIS_MONTH("mes"), THIS_WEEK("semana"), THIS_YEAR("ano");
 
     final String typeString;
 

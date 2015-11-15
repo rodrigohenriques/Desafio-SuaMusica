@@ -23,10 +23,10 @@ public class AlbumDetailActivity extends BaseActivity {
 
         initializeDependencies();
 
-        condigureViews();
+        configureViews();
     }
 
-    private void condigureViews() {
+    private void configureViews() {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

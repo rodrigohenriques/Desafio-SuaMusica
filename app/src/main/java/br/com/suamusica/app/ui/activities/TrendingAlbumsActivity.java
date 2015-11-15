@@ -1,11 +1,17 @@
 package br.com.suamusica.app.ui.activities;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.cocosw.bottomsheet.BottomSheet;
 
 import java.util.List;
 
@@ -28,7 +34,6 @@ public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusi
     @Inject TrendingAlbumsPresenter mTrendingAlbumsPresenter;
 
     ProgressDialog mProgressDialog;
-    StaggeredGridLayoutManager mStaggeredLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +44,39 @@ public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusi
 
         configureViews();
 
-        mTrendingAlbumsPresenter.queryData();
         mTrendingAlbumsPresenter.attachView(this);
     }
 
     private void configureViews() {
         setSupportActionBar(mToolbar);
+    }
 
+    private void initializeDependencies() {
+        mApplicationComponent.inject(this);
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_trending_music, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                mTrendingAlbumsPresenter.clickedAtFilterMenu();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void showData(List<AlbumViewModel> albums) {
         int gridSpanCount;
         int gridSpace;
 
@@ -57,18 +88,9 @@ public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusi
             gridSpace = 16;
         }
 
-        mStaggeredLayoutManager = new StaggeredGridLayoutManager(gridSpanCount, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager mStaggeredLayoutManager = new StaggeredGridLayoutManager(gridSpanCount, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mStaggeredLayoutManager);
         mRecyclerView.addItemDecoration(new ItemDecorationTrendingAlbums(gridSpace, gridSpanCount));
-    }
-
-    private void initializeDependencies() {
-        mApplicationComponent.inject(this);
-        ButterKnife.bind(this);
-    }
-
-    @Override
-    public void showData(List<AlbumViewModel> albums) {
         TrendingAlbumsAdapter adapter = new TrendingAlbumsAdapter(this, albums);
         adapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(adapter);
@@ -77,6 +99,36 @@ public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusi
     @Override
     public void openAlbumDetail(int albumId) {
         mNavigator.openAlbumDetail(this, albumId);
+    }
+
+    @Override
+    public void showQueryTypesToSelect() {
+        new BottomSheet.Builder(this)
+                .sheet(R.menu.menu_query_types)
+                .listener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        switch (which) {
+                            case R.id.general:
+                                mTrendingAlbumsPresenter.loadTrendingAlbumsEver();
+                                break;
+                            case R.id.year:
+                                mTrendingAlbumsPresenter.loadTrendingAlbumsOfThisYear();
+                                break;
+                            case R.id.month:
+                                mTrendingAlbumsPresenter.loadTrendingAlbumsOfThisMonth();
+                                break;
+                            case R.id.week:
+                                mTrendingAlbumsPresenter.loadTrendingAlbumsOfThisWeek();
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
+    @Override
+    public void changeTitle(int titleId) {
+        getSupportActionBar().setTitle(titleId);
     }
 
     @Override
