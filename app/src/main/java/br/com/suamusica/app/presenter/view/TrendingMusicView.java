@@ -2,8 +2,9 @@ package br.com.suamusica.app.presenter.view;
 
 import java.util.List;
 
-import br.com.suamusica.domain.entities.Album;
+import br.com.suamusica.app.entities.AlbumViewModel;
 
 public interface TrendingMusicView extends View {
-    void showData(List<Album> albums);
+    void showData(List<AlbumViewModel> albums);
+    void openAlbumDetail(int albumId);
 }

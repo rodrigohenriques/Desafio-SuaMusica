@@ -8,22 +8,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import br.com.suamusica.app.R;
-import br.com.suamusica.domain.entities.Album;
+import br.com.suamusica.app.entities.AlbumViewModel;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class TrendingAlbumsAdapter extends RecyclerView.Adapter<TrendingAlbumsAdapter.ViewHolder> {
 
     Context mContext;
-    List<Album> albums;
+    List<AlbumViewModel> albums;
     OnItemClickListener mItemClickListener;
 
-    public TrendingAlbumsAdapter(Context context, List<Album> albums) {
+    public TrendingAlbumsAdapter(Context context, List<AlbumViewModel> albums) {
         this.mContext = context;
         this.albums = albums;
     }
@@ -41,16 +41,19 @@ public class TrendingAlbumsAdapter extends RecyclerView.Adapter<TrendingAlbumsAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Album album = albums.get(position);
+        final AlbumViewModel album = albums.get(position);
 
-        Glide.with(mContext)
-                .load(album.coverUrl)
-                .fitCenter()
-                .crossFade()
+        Picasso.with(mContext)
+                .load(album.getCoverUrl())
+                .fit()
                 .placeholder(R.drawable.placeholder)
                 .into(holder.albumCoverImage);
 
-        holder.albumName.setText(album.name);
+        holder.albumName.setText(album.getName());
+        holder.albumAuthor.setText(album.getAuthor());
+        holder.albumDownloads.setText(album.getDownloads());
+
+
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +65,8 @@ public class TrendingAlbumsAdapter extends RecyclerView.Adapter<TrendingAlbumsAd
     public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.imageview_album_cover) ImageView albumCoverImage;
         @Bind(R.id.textview_album_name) TextView albumName;
+        @Bind(R.id.textview_album_author) TextView albumAuthor;
+        @Bind(R.id.textview_album_downloads) TextView albumDownloads;
 
         View rootView;
 
@@ -78,6 +83,6 @@ public class TrendingAlbumsAdapter extends RecyclerView.Adapter<TrendingAlbumsAd
     }
 
     public interface OnItemClickListener {
-        void onClick(Album album, int position);
+        void onClick(AlbumViewModel album, int position);
     }
 }

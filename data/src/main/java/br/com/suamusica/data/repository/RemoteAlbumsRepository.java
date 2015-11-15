@@ -6,7 +6,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.suamusica.data.api.SuaMusicaApi;
-import br.com.suamusica.data.api.TrendingMusicRequest;
 import br.com.suamusica.data.entities.AlbumEntity;
 import br.com.suamusica.data.entities.AlbumEntityListMarshaller;
 import br.com.suamusica.domain.entities.Album;
@@ -26,9 +25,7 @@ public class RemoteAlbumsRepository implements AlbumsRepository {
 
     @Override
     public List<Album> listTrendingMusic(int page, QueryType queryType) throws IOException {
-        TrendingMusicRequest request = new TrendingMusicRequest(page, queryType);
-
-        Call<List<AlbumEntity>> call = mSuaMusicaApi.listTrendingMusic(request);
+        Call<List<AlbumEntity>> call = mSuaMusicaApi.listTrendingMusic(page, queryType.typeString());
 
         Response<List<AlbumEntity>> response;
         try {

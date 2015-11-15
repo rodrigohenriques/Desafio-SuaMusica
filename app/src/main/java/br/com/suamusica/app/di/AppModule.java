@@ -2,6 +2,8 @@ package br.com.suamusica.app.di;
 
 import android.app.Application;
 
+import javax.inject.Singleton;
+
 import br.com.suamusica.app.interactor.AndroidUiThreadExecutor;
 import br.com.suamusica.app.presenter.TrendingAlbumsPresenter;
 import br.com.suamusica.app.presenter.TrendingAlbumsPresenterImpl;
@@ -20,15 +22,19 @@ public class AppModule {
         this.application = application;
     }
 
-    @Provides public UiThreadExecutor provideUiThreadExecutor() {
+    @Provides @Singleton public Application provideContext() {
+        return application;
+    }
+
+    @Provides @Singleton public UiThreadExecutor provideUiThreadExecutor() {
         return new AndroidUiThreadExecutor();
     }
 
-    @Provides public TrendingAlbumsPresenter provideTrendingMusicPresenter(TrendingAlbumsPresenterImpl trendingMusicPresenter) {
+    @Provides @Singleton public TrendingAlbumsPresenter provideTrendingMusicPresenter(TrendingAlbumsPresenterImpl trendingMusicPresenter) {
         return trendingMusicPresenter;
     }
 
-    @Provides public ListTrendingAlbumsUseCase provideListTrendingAlbumsUseCase(ListTrendingAlbumsUseCaseImpl listTrendingAlbumsUseCase) {
+    @Provides @Singleton public ListTrendingAlbumsUseCase provideListTrendingAlbumsUseCase(ListTrendingAlbumsUseCaseImpl listTrendingAlbumsUseCase) {
         return  listTrendingAlbumsUseCase;
     }
 }

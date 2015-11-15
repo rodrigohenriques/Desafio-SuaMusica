@@ -1,14 +1,13 @@
 package com.github.rodrigohenriques.mvp.sample.data;
 
-import br.com.suamusica.data.api.SuaMusicaApi;
-import br.com.suamusica.data.api.TrendingMusicRequest;
-import br.com.suamusica.data.di.DataModule;
-import br.com.suamusica.data.entities.AlbumEntity;
-
 import org.junit.Test;
 
 import java.util.List;
 
+import br.com.suamusica.data.api.SuaMusicaApi;
+import br.com.suamusica.data.di.DataModule;
+import br.com.suamusica.data.entities.AlbumEntity;
+import br.com.suamusica.domain.entities.QueryType;
 import retrofit.Call;
 import retrofit.Response;
 
@@ -20,8 +19,7 @@ public class ApiUnitTest {
     public void testListTrendingMusic() throws Exception {
         SuaMusicaApi api = new DataModule().provideApi();
 
-        TrendingMusicRequest request = new TrendingMusicRequest(1, TrendingMusicRequest.QueryType.ALWAYS);
-        Call<List<AlbumEntity>> call = api.listTrendingMusic(request);
+        Call<List<AlbumEntity>> call = api.listTrendingMusic(1, QueryType.ALWAYS.typeString());
 
         Response<List<AlbumEntity>> response = call.execute();
 

@@ -7,7 +7,7 @@ public class AlbumEntityMarshaller implements Marshaller<AlbumEntity, Album> {
 
     @Override
     public Album marshal(AlbumEntity input) {
-        return new Album(input.username, input.titulo, input.cover);
+        return new Album(input.id, input.username, input.titulo, input.cover, input.downloads);
     }
 
     @Override
