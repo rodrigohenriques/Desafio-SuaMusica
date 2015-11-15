@@ -1,5 +1,7 @@
 package br.com.suamusica.app.presenter;
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import br.com.suamusica.domain.interactor.ListTrendingAlbumsUseCase;
 public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
 
     private ListTrendingAlbumsUseCase mListTrendingAlbumsUseCase;
-    private TrendingMusicView mTrendingMusicView;
+    private @Nullable TrendingMusicView mTrendingMusicView;
     private List<Album> mAlbumsCache;
     private int mPage;
     private QueryType mQueryType;
@@ -32,32 +34,33 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
     @Override
     public void loadTrendingAlbumsEver() {
         queryData(1, QueryType.EVER);
-        changeTitle(R.string.title_trending_albums_ever);
     }
 
-    private void changeTitle(int titleId) {
-        mTrendingMusicView.changeTitle(titleId);
-    }
 
     @Override
     public void loadTrendingAlbumsOfThisYear() {
         queryData(1, QueryType.THIS_YEAR);
-        changeTitle(R.string.title_trending_albums_this_year);
     }
 
     @Override
     public void loadTrendingAlbumsOfThisMonth() {
         queryData(1, QueryType.THIS_MONTH);
-        changeTitle(R.string.title_trending_albums_this_month);
     }
 
     @Override
     public void loadTrendingAlbumsOfThisWeek() {
         queryData(1, QueryType.THIS_WEEK);
-        changeTitle(R.string.title_trending_albums_this_week);
+    }
+
+    private void changeTitle(int titleId) {
+        if (mTrendingMusicView != null) {
+            mTrendingMusicView.changeTitle(titleId);
+        }
     }
 
     private void queryData(final int page, final QueryType queryType) {
+        defineTitle(queryType);
+
         if (shouldQueryData(page, queryType)) {
             showLoading();
 
@@ -81,6 +84,23 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
                     hideLoading();
                 }
             });
+        }
+    }
+
+    private void defineTitle(QueryType queryType) {
+        switch (queryType) {
+            case EVER:
+                changeTitle(R.string.title_trending_albums_ever);
+                break;
+            case THIS_YEAR:
+                changeTitle(R.string.title_trending_albums_this_year);
+                break;
+            case THIS_MONTH:
+                changeTitle(R.string.title_trending_albums_this_month);
+                break;
+            case THIS_WEEK:
+                changeTitle(R.string.title_trending_albums_this_week);
+                break;
         }
     }
 
