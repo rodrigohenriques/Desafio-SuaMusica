@@ -3,9 +3,9 @@ package br.com.suamusica.app.interactor;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.github.rodrigohenriques.mvp.sample.domain.interactor.UiThreadExecutor;
-
 import javax.inject.Inject;
+
+import br.com.suamusica.domain.interactor.UiThreadExecutor;
 
 public class AndroidUiThreadExecutor implements UiThreadExecutor {
     Handler handler;

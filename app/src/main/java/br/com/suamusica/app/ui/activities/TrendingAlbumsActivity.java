@@ -2,7 +2,7 @@ package br.com.suamusica.app.ui.activities;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -12,20 +12,23 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.suamusica.app.R;
-import br.com.suamusica.app.presenter.TrendingMusicPresenter;
+import br.com.suamusica.app.presenter.TrendingAlbumsPresenter;
 import br.com.suamusica.app.presenter.view.TrendingMusicView;
-import br.com.suamusica.app.ui.activities.TrendingMusicAdapter;
+import br.com.suamusica.app.ui.adapters.TrendingAlbumsAdapter;
+import br.com.suamusica.app.ui.custom.ItemDecorationTrendingAlbums;
 import br.com.suamusica.domain.entities.Album;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TrendingAlbumsActivity extends AppCompatActivity implements TrendingMusicView {
+public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusicView, TrendingAlbumsAdapter.OnItemClickListener {
 
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.recycler_view_grid) RecyclerView mRecyclerView;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.recycler_view_grid)
+    RecyclerView mRecyclerView;
 
     @Inject
-    TrendingMusicPresenter mTrendingMusicPresenter;
+    TrendingAlbumsPresenter mTrendingAlbumsPresenter;
 
     ProgressDialog mProgressDialog;
 
@@ -34,23 +37,40 @@ public class TrendingAlbumsActivity extends AppCompatActivity implements Trendin
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trending_music);
 
-        ButterKnife.bind(this);
+        initializeDependencies();
 
+        configureViews();
+    }
+
+    private void configureViews() {
         setSupportActionBar(mToolbar);
-
         StaggeredGridLayoutManager mStaggeredLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mStaggeredLayoutManager);
+    }
+
+    private void initializeDependencies() {
+        mApplicationComponent.inject(this);
+        ButterKnife.bind(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mTrendingMusicPresenter.queryData();
+        mTrendingAlbumsPresenter.queryData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTrendingAlbumsPresenter.attachView(this);
     }
 
     @Override
     public void showData(List<Album> albums) {
-        mRecyclerView.setAdapter(new TrendingMusicAdapter(this, albums));
+        TrendingAlbumsAdapter adapter = new TrendingAlbumsAdapter(this, albums);
+        adapter.setOnItemClickListener(this);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addItemDecoration(new ItemDecorationTrendingAlbums(4, 2));
     }
 
     @Override
@@ -63,6 +83,13 @@ public class TrendingAlbumsActivity extends AppCompatActivity implements Trendin
 
     @Override
     public void hideLoading() {
-        mProgressDialog.dismiss();
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onClick(Album album, int position) {
+        Snackbar.make(mRecyclerView, album.name, Snackbar.LENGTH_LONG).show();
     }
 }

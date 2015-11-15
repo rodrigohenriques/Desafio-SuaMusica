@@ -11,9 +11,15 @@ import br.com.suamusica.domain.interactor.Callback;
 import br.com.suamusica.domain.interactor.ListTrendingAlbumsUseCase;
 
 public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
+
+    private ListTrendingAlbumsUseCase mListTrendingAlbumsUseCase;
+    private TrendingMusicView mTrendingMusicView;
+    private boolean isLoading = false;
+
     @Inject
-    ListTrendingAlbumsUseCase mListTrendingAlbumsUseCase;
-    TrendingMusicView mTrendingMusicView;
+    public TrendingAlbumsPresenterImpl(ListTrendingAlbumsUseCase listTrendingAlbumsUseCase) {
+        this.mListTrendingAlbumsUseCase = listTrendingAlbumsUseCase;
+    }
 
     @Override
     public void queryData() {
@@ -38,11 +44,15 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
     }
 
     private void showLoading() {
+        isLoading = true;
+
         if (mTrendingMusicView != null)
             mTrendingMusicView.showLoading();
     }
 
     private void hideLoading() {
+        isLoading = false;
+
         if (mTrendingMusicView != null)
             mTrendingMusicView.hideLoading();
     }
@@ -56,5 +66,11 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
     @Override
     public void attachView(TrendingMusicView view) {
         mTrendingMusicView = view;
+
+        if (isLoading) {
+            showLoading();
+        } else {
+            hideLoading();
+        }
     }
 }

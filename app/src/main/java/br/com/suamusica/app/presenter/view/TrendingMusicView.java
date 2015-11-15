@@ -1,4 +1,9 @@
 package br.com.suamusica.app.presenter.view;
 
-public class TrendingMusicView {
+import java.util.List;
+
+import br.com.suamusica.domain.entities.Album;
+
+public interface TrendingMusicView extends View {
+    void showData(List<Album> albums);
 }

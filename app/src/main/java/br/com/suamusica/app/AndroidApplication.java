@@ -2,13 +2,13 @@ package br.com.suamusica.app;
 
 import android.app.Application;
 
-import com.github.rodrigohenriques.mvp.sample.data.di.DataModule;
-import com.github.rodrigohenriques.mvp.sample.di.ApplicationComponent;
-import com.github.rodrigohenriques.mvp.sample.di.DaggerApplicationComponent;
-import com.github.rodrigohenriques.mvp.sample.di.PresenterModule;
+import br.com.suamusica.app.di.AppComponent;
+import br.com.suamusica.app.di.AppModule;
+import br.com.suamusica.app.di.DaggerAppComponent;
+import br.com.suamusica.data.di.DataModule;
 
 public class AndroidApplication extends Application {
-    private ApplicationComponent applicationComponent;
+    private AppComponent applicationComponent;
 
     @Override public void onCreate() {
         super.onCreate();
@@ -16,13 +16,13 @@ public class AndroidApplication extends Application {
     }
 
     private void initializeInjector() {
-        this.applicationComponent = DaggerApplicationComponent.builder()
-                .presenterModule(new PresenterModule(this))
+        this.applicationComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
                 .dataModule(new DataModule())
                 .build();
     }
 
-    public ApplicationComponent getApplicationComponent() {
+    public AppComponent getApplicationComponent() {
         return this.applicationComponent;
     }
 }

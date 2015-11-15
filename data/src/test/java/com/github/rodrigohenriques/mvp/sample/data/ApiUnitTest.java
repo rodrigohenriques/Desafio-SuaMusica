@@ -1,9 +1,9 @@
 package com.github.rodrigohenriques.mvp.sample.data;
 
-import com.github.rodrigohenriques.mvp.sample.data.api.SuaMusicaApi;
-import com.github.rodrigohenriques.mvp.sample.data.api.TrendingMusicRequest;
-import com.github.rodrigohenriques.mvp.sample.data.di.DataModule;
-import com.github.rodrigohenriques.mvp.sample.data.entities.AlbumEntity;
+import br.com.suamusica.data.api.SuaMusicaApi;
+import br.com.suamusica.data.api.TrendingMusicRequest;
+import br.com.suamusica.data.di.DataModule;
+import br.com.suamusica.data.entities.AlbumEntity;
 
 import org.junit.Test;
 

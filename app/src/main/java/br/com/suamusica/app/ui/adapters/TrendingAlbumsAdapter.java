@@ -21,6 +21,7 @@ public class TrendingAlbumsAdapter extends RecyclerView.Adapter<TrendingAlbumsAd
 
     Context mContext;
     List<Album> albums;
+    OnItemClickListener mItemClickListener;
 
     public TrendingAlbumsAdapter(Context context, List<Album> albums) {
         this.mContext = context;
@@ -49,18 +50,34 @@ public class TrendingAlbumsAdapter extends RecyclerView.Adapter<TrendingAlbumsAd
                 .placeholder(R.drawable.placeholder)
                 .into(holder.albumCoverImage);
 
-        holder.albumAuthor.setText(album.author);
         holder.albumName.setText(album.name);
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mItemClickListener.onClick(album, position);
+            }
+        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.imageview_album_cover) ImageView albumCoverImage;
-        @Bind(R.id.textview_album_author) TextView albumAuthor;
         @Bind(R.id.textview_album_name) TextView albumName;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        View rootView;
+
+        public ViewHolder(View rootView) {
+            super(rootView);
+            ButterKnife.bind(this, rootView);
+
+            this.rootView = rootView;
         }
+    }
+
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onClick(Album album, int position);
     }
 }

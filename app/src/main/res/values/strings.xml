@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">SuaMusica</string>
     <string name="action_settings">Settings</string>
+    <string name="progress_title">Aguarde</string>
+    <string name="progress_message">Carregando informações...</string>
+    <string name="title_trending_albums">Mais Baixados</string>
 </resources>

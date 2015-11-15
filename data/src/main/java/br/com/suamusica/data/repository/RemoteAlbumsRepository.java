@@ -1,15 +1,14 @@
 package br.com.suamusica.data.repository;
 
-import br.com.suamusica.data.api.SuaMusicaApi;
-import br.com.suamusica.data.api.TrendingMusicRequest;
-import br.com.suamusica.data.entities.AlbumEntity;
-import br.com.suamusica.data.entities.AlbumEntityListMarshaller;
-
 import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import br.com.suamusica.data.api.SuaMusicaApi;
+import br.com.suamusica.data.api.TrendingMusicRequest;
+import br.com.suamusica.data.entities.AlbumEntity;
+import br.com.suamusica.data.entities.AlbumEntityListMarshaller;
 import br.com.suamusica.domain.entities.Album;
 import br.com.suamusica.domain.entities.QueryType;
 import br.com.suamusica.domain.repository.AlbumsRepository;
