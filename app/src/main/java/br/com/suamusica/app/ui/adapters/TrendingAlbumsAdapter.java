@@ -1,4 +1,4 @@
-package br.com.suamusica.app.view.activities;
+package br.com.suamusica.app.ui.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -17,12 +17,12 @@ import br.com.suamusica.domain.entities.Album;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TrendingMusicAdapter extends RecyclerView.Adapter<TrendingMusicAdapter.ViewHolder> {
+public class TrendingAlbumsAdapter extends RecyclerView.Adapter<TrendingAlbumsAdapter.ViewHolder> {
 
     Context mContext;
     List<Album> albums;
 
-    public TrendingMusicAdapter(Context context, List<Album> albums) {
+    public TrendingAlbumsAdapter(Context context, List<Album> albums) {
         this.mContext = context;
         this.albums = albums;
     }

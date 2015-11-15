@@ -1,4 +1,4 @@
-package com.github.rodrigohenriques.mvp.sample.data.entities;
+package br.com.suamusica.data.entities;
 
 public class AlbumEntity {
     protected String titulo;

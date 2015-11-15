@@ -1,6 +1,6 @@
-package com.github.rodrigohenriques.mvp.sample.data.api;
+package br.com.suamusica.data.api;
 
-import com.github.rodrigohenriques.mvp.sample.data.entities.AlbumEntity;
+import br.com.suamusica.data.entities.AlbumEntity;
 
 import java.util.List;
 
