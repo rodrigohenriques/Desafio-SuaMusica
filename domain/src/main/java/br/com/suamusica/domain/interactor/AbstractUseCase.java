@@ -1,6 +1,10 @@
 package br.com.suamusica.domain.interactor;
 
-public abstract class AbstractUseCase {
+import java.io.IOException;
+
+public abstract class AbstractUseCase<Input, Result> implements UseCase {
+    protected Input mInput;
+    protected Callback<Result> mCallback;
     protected UiThreadExecutor mUiThreadExecutor;
     protected Thread mProcess;
 
@@ -8,8 +12,25 @@ public abstract class AbstractUseCase {
         this.mUiThreadExecutor = mUiThreadExecutor;
     }
 
-    protected void executeAsync(Runnable runnable) {
-        mProcess = new Thread(runnable);
+    protected void executeAsync(Input input, Callback<Result> callback) {
+        mInput = input;
+        mCallback = callback;
+        mCallback.setUiThreadExecutor(mUiThreadExecutor);
+
+        mProcess = new Thread(this);
         mProcess.start();
     }
+
+    @Override
+    public void run() {
+        try {
+            Result result = executeOnBackground(mInput);
+
+            mCallback.dispatchResult(result);
+        } catch (Exception e) {
+            mCallback.dispatchException(e);
+        }
+    }
+
+    protected abstract Result executeOnBackground(Input input) throws IOException;
 }

@@ -9,6 +9,7 @@ import br.com.suamusica.data.api.SuaMusicaApi;
 import br.com.suamusica.data.entities.AlbumEntity;
 import br.com.suamusica.data.entities.AlbumEntityListMarshaller;
 import br.com.suamusica.domain.entities.Album;
+import br.com.suamusica.domain.entities.AlbumDetail;
 import br.com.suamusica.domain.entities.QueryType;
 import br.com.suamusica.domain.repository.AlbumsRepository;
 import retrofit.Call;
@@ -41,5 +42,10 @@ public class RemoteAlbumsRepository implements AlbumsRepository {
         } catch (IOException e) {
             throw new IOException("could not retrieve albums from sua musica api: ", e);
         }
+    }
+
+    @Override
+    public AlbumDetail getAlbumDetailById(int albumId) throws IOException {
+        return null;
     }
 }

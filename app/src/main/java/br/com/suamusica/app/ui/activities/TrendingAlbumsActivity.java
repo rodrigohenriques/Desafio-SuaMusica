@@ -1,6 +1,5 @@
 package br.com.suamusica.app.ui.activities;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -32,8 +31,6 @@ public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusi
     @Bind(R.id.recycler_view_grid) RecyclerView mRecyclerView;
 
     @Inject TrendingAlbumsPresenter mTrendingAlbumsPresenter;
-
-    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +89,8 @@ public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusi
     }
 
     @Override
-    public void openAlbumDetail(int albumId, String coverUrl) {
-        mNavigator.openAlbumDetail(this, albumId, coverUrl);
+    public void openAlbumDetail(int albumId, String albumName, String coverUrl) {
+        mNavigator.openAlbumDetail(this, albumId, albumName, coverUrl);
     }
 
     @Override
@@ -130,21 +127,6 @@ public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusi
     @Override
     public void changeTitle(int titleId) {
         getSupportActionBar().setTitle(titleId);
-    }
-
-    @Override
-    public void showLoading() {
-        CharSequence title = getString(R.string.progress_title);
-        CharSequence message = getString(R.string.progress_message);
-
-        mProgressDialog = ProgressDialog.show(this, title, message, true, false);
-    }
-
-    @Override
-    public void hideLoading() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
     }
 
     @Override

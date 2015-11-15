@@ -4,5 +4,4 @@ import br.com.suamusica.app.entities.AlbumDetailViewModel;
 
 public interface AlbumDetailView extends View {
     void showDetails(AlbumDetailViewModel albumDetailViewModel);
-    void showCoverImage(String coverUrl);
 }

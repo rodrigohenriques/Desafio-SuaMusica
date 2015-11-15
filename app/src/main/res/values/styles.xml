@@ -28,4 +28,9 @@
         <item name="bs_listStyle">@style/BottomSheet.List</item>
     </style>
 
+    <style name="AlbumDetailExpandedTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:singleLine">false</item>
+        <item name="android:ellipsize">none</item>
+    </style>
+
 </resources>

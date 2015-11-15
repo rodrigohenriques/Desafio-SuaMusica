@@ -122,7 +122,7 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
     @Override
     public void clickedAt(AlbumViewModel album, int position) {
         if (mTrendingMusicView != null)
-            mTrendingMusicView.openAlbumDetail(album.getId(), album.getCoverUrl());
+            mTrendingMusicView.openAlbumDetail(album.getId(), album.getName(), album.getCoverUrl());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package br.com.suamusica.domain.interactor;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,11 +9,8 @@ import br.com.suamusica.domain.entities.Album;
 import br.com.suamusica.domain.entities.QueryType;
 import br.com.suamusica.domain.repository.AlbumsRepository;
 
-public class ListTrendingAlbumsUseCaseImpl  extends AbstractUseCase implements ListTrendingAlbumsUseCase {
+public class ListTrendingAlbumsUseCaseImpl  extends AbstractUseCase<ListTrendingAlbumsUseCaseImpl.Input, List<Album>> implements ListTrendingAlbumsUseCase {
 
-    private int mPage;
-    private QueryType mQueryType;
-    private Callback<List<Album>> mCallback;
     private AlbumsRepository mAlbumsRepository;
 
     @Inject
@@ -24,23 +22,21 @@ public class ListTrendingAlbumsUseCaseImpl  extends AbstractUseCase implements L
 
     @Override
     public void execute(int page, QueryType queryType, Callback<List<Album>> callback) {
-        this.mPage = page;
-        this.mQueryType = queryType;
-        this.mCallback = callback;
-
-        callback.setUiThreadExecutor(mUiThreadExecutor);
-
-        executeAsync(this);
+        executeAsync(new Input(page, queryType), callback);
     }
 
     @Override
-    public void run() {
-        try {
-            List<Album> albums = mAlbumsRepository.listTrendingMusic(mPage, mQueryType);
+    protected List<Album> executeOnBackground(Input input) throws IOException {
+        return mAlbumsRepository.listTrendingMusic(input.page, input.queryType);
+    }
 
-            mCallback.dispatchResult(albums);
-        } catch (Exception e) {
-            mCallback.dispatchException(e);
+    class Input {
+        int page;
+        QueryType queryType;
+
+        public Input(int page, QueryType queryType) {
+            this.page = page;
+            this.queryType = queryType;
         }
     }
 }
