@@ -31,7 +31,7 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
 
     @Override
     public void loadTrendingAlbumsEver() {
-        queryData(1, QueryType.ALWAYS);
+        queryData(1, QueryType.EVER);
         changeTitle(R.string.title_trending_albums_ever);
     }
 
@@ -142,7 +142,13 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
         if (hasValidCache()) {
             showData(mAlbumsCache);
         } else {
-            loadTrendingAlbumsEver();
+            if (mPage == 0)
+                mPage = 1;
+
+            if (mQueryType == null)
+                mQueryType = QueryType.EVER;
+
+            queryData(mPage, mQueryType);
         }
     }
 }

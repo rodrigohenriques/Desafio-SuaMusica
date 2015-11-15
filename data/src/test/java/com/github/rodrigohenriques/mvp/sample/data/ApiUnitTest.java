@@ -19,7 +19,7 @@ public class ApiUnitTest {
     public void testListTrendingMusic() throws Exception {
         SuaMusicaApi api = new DataModule().provideApi();
 
-        Call<List<AlbumEntity>> call = api.listTrendingMusic(1, QueryType.ALWAYS.typeString());
+        Call<List<AlbumEntity>> call = api.listTrendingMusic(1, QueryType.EVER.typeString());
 
         Response<List<AlbumEntity>> response = call.execute();
 

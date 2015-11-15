@@ -1,6 +1,11 @@
 package br.com.suamusica.app.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import br.com.suamusica.app.R;
 import br.com.suamusica.app.entities.AlbumViewModel;
+import br.com.suamusica.app.ui.custom.PaletteTransformation;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -46,13 +53,32 @@ public class TrendingAlbumsAdapter extends RecyclerView.Adapter<TrendingAlbumsAd
         Picasso.with(mContext)
                 .load(album.getCoverUrl())
                 .fit()
+                .transform(PaletteTransformation.instance())
                 .placeholder(R.drawable.placeholder)
-                .into(holder.albumCoverImage);
+                .into(holder.albumCoverImage, new Callback.EmptyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) holder.albumCoverImage.getDrawable()).getBitmap(); // Ew!
+
+                        Palette palette = PaletteTransformation.getPalette(bitmap);
+
+                        Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+
+                        if (swatch != null) {
+
+                            GradientDrawable gd = new GradientDrawable(
+                                    GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[] { swatch.getRgb(), Color.alpha(swatch.getRgb()) });
+                            gd.setCornerRadius(0f);
+
+                            holder.albumGroupInfo.setBackground(gd);
+                        }
+                    }
+                });
 
         holder.albumName.setText(album.getName());
         holder.albumAuthor.setText(album.getAuthor());
         holder.albumDownloads.setText(album.getDownloads());
-
 
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +93,7 @@ public class TrendingAlbumsAdapter extends RecyclerView.Adapter<TrendingAlbumsAd
         @Bind(R.id.textview_album_name) TextView albumName;
         @Bind(R.id.textview_album_author) TextView albumAuthor;
         @Bind(R.id.textview_album_downloads) TextView albumDownloads;
+        @Bind(R.id.viewgroup_album_info) ViewGroup albumGroupInfo;
 
         View rootView;
 

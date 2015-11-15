@@ -1,61 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<br.com.suamusica.app.ui.custom.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<br.com.suamusica.app.ui.custom.SquareCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="?android:selectableItemBackground"
-    android:clickable="true">
-
-    <ImageView
-        android:id="@+id/imageview_album_cover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/placeholder" />
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="2dp"
+    card_view:cardElevation="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/grid_text_background"
-        android:orientation="vertical"
-        android:padding="12dp"
-        android:layout_alignParentBottom="true">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textview_album_name"
+        <ImageView
+            android:id="@+id/imageview_album_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/placeholder" />
+
+        <RelativeLayout
+            android:id="@+id/viewgroup_album_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Marcia Felipe - Bla Bla Bla Bla"
-            android:textSize="16sp"
-            android:typeface="sans"
-            android:textColor="@color/grid_text"
-            android:textStyle="bold"/>
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/grid_text_background"
+            android:alpha="60"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-        <TextView
-            android:id="@+id/textview_album_author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="marciafellipe"
-            android:textSize="14sp"
-            android:typeface="sans"
-            android:textColor="@color/grid_text"
-            android:layout_below="@+id/textview_album_name"
-            android:layout_toLeftOf="@+id/textview_album_downloads" />
+            <TextView
+                android:id="@+id/textview_album_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Marcia Felipe - Bla Bla Bla Bla"
+                android:textColor="@color/grid_text"
+                android:layout_marginTop="64dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:typeface="sans" />
 
-        <TextView
-            android:id="@+id/textview_album_downloads"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1.500.000 downloads"
-            android:textSize="14sp"
-            android:typeface="sans"
-            android:textColor="@color/grid_text"
-            android:layout_below="@+id/textview_album_name"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:gravity="right"/>
+            <TextView
+                android:id="@+id/textview_album_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textview_album_name"
+                android:layout_toLeftOf="@+id/textview_album_downloads"
+                android:text="marciafellipe"
+                android:textColor="@color/grid_text"
+                android:textSize="14sp"
+                android:typeface="sans" />
 
-
+            <TextView
+                android:id="@+id/textview_album_downloads"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/textview_album_name"
+                android:gravity="right"
+                android:text="1.500.000 downloads"
+                android:textColor="@color/grid_text"
+                android:textSize="14sp"
+                android:typeface="sans" />
+        </RelativeLayout>
     </RelativeLayout>
 
-</br.com.suamusica.app.ui.custom.SquareRelativeLayout>
+    <!-- Used for the ripple effect on touch -->
+    <LinearLayout
+        android:id="@+id/mainHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal" />
+
+</br.com.suamusica.app.ui.custom.SquareCardView>
