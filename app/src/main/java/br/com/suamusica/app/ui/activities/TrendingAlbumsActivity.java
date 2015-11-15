@@ -92,8 +92,8 @@ public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusi
     }
 
     @Override
-    public void openAlbumDetail(int albumId) {
-        mNavigator.openAlbumDetail(this, albumId);
+    public void openAlbumDetail(int albumId, String coverUrl) {
+        mNavigator.openAlbumDetail(this, albumId, coverUrl);
     }
 
     @Override

@@ -6,13 +6,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import br.com.suamusica.app.R;
+import br.com.suamusica.app.presenter.view.AlbumDetailView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AlbumDetailActivity extends BaseActivity {
+public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView {
 
-    public static final String EXTRA_ALBUM_ID = "album-id";
+    public static final String ALBUM_ID = "album-id";
+    public static final String COVER_URL = "cover-url";
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
 

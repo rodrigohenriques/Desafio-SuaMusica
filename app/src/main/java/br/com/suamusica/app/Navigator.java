@@ -17,9 +17,10 @@ public class Navigator {
         this.mApplication = application;
     }
 
-    public void openAlbumDetail(Activity activity, int albumId) {
+    public void openAlbumDetail(Activity activity, int albumId, String coverUrl) {
         Intent intent = new Intent(activity, AlbumDetailActivity.class);
-        intent.putExtra(AlbumDetailActivity.EXTRA_ALBUM_ID, albumId);
+        intent.putExtra(AlbumDetailActivity.ALBUM_ID, albumId);
+        intent.putExtra(AlbumDetailActivity.COVER_URL, albumId);
         activity.startActivity(intent);
     }
 }
