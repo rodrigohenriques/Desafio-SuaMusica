@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="query_types">
+        <item>Geral</item>
+        <item>Ano</item>
+        <item>Mês</item>
+        <item>Semana</item>
+    </string-array>
+</resources>
