@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 public class TrendingAlbumsActivity extends BaseActivity implements TrendingMusicView, TrendingAlbumsAdapter.OnItemClickListener {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.recycler_view_grid) RecyclerView mRecyclerView;
+    @Bind(R.id.recycler) RecyclerView mRecyclerView;
 
     @Inject TrendingAlbumsPresenter mTrendingAlbumsPresenter;
 

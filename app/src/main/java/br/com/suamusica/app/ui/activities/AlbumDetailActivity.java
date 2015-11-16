@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,14 +18,17 @@ import javax.inject.Inject;
 
 import br.com.suamusica.app.R;
 import br.com.suamusica.app.entities.AlbumDetailViewModel;
+import br.com.suamusica.app.entities.SongViewModel;
 import br.com.suamusica.app.presenter.AlbumDetailPresenter;
 import br.com.suamusica.app.presenter.view.AlbumDetailView;
+import br.com.suamusica.app.ui.adapters.SongAdapter;
+import br.com.suamusica.app.ui.custom.DividerItemDecoration;
 import br.com.suamusica.app.ui.custom.PaletteTransformation;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView {
+public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView, SongAdapter.OnItemClickListener {
 
     public static final String ALBUM_ID = "album-id";
     public static final String COVER_URL = "cover-url";
@@ -38,6 +43,7 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView
     @Bind(R.id.imageview_album_detail_cover) ImageView mImageViewAlbumCover;
     @Bind(R.id.view_album_detail_cover_background) View mCoverTextBackground;
     @Bind(R.id.fab_album_detail_favorite) FloatingActionButton mFabFavoriteAlbum;
+    @Bind(R.id.recycler) RecyclerView mRecyclerView;
 
     @Inject
     AlbumDetailPresenter mAlbumDetailPresenter;
@@ -81,6 +87,10 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView
         gd.setCornerRadius(0f);
 
         mCoverTextBackground.setBackground(gd);
+
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         mAlbumDetailPresenter.attachView(this);
     }
 
@@ -91,17 +101,24 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView
 
     @OnClick(R.id.fab_album_detail_favorite)
     void favoriteAlbum(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        Snackbar.make(view, String.format("%s foi adicionado aos seus favoritos.", mAlbumName), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
     @Override
     public void showDetails(AlbumDetailViewModel albumDetailViewModel) {
-
+        SongAdapter adapter = new SongAdapter(this, albumDetailViewModel.getSongs());
+        adapter.setOnItemClickListener(this);
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public int getAlbumId() {
         return mAlbumId;
+    }
+
+    @Override
+    public void onClick(SongViewModel songViewModel, int position) {
+        Snackbar.make(mRecyclerView, songViewModel.getFileName(), Snackbar.LENGTH_LONG).show();
     }
 }

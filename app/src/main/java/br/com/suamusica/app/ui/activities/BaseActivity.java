@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import javax.inject.Inject;
 
@@ -11,9 +12,9 @@ import br.com.suamusica.app.AndroidApplication;
 import br.com.suamusica.app.Navigator;
 import br.com.suamusica.app.R;
 import br.com.suamusica.app.di.AppComponent;
-import br.com.suamusica.app.presenter.view.View;
+import br.com.suamusica.app.presenter.view.IView;
 
-public abstract class BaseActivity extends AppCompatActivity implements View {
+public abstract class BaseActivity extends AppCompatActivity implements IView {
 
     protected @Inject Navigator mNavigator;
     protected AppComponent mApplicationComponent;
@@ -44,8 +45,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View {
 
     @Override
     public void showError(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
-        snackbar.setAction("Fechar", null);
+        final Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackbar.setAction("Fechar", new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                snackbar.dismiss();
+            }
+        });
         snackbar.show();
     }
 }

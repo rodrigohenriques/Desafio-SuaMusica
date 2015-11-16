@@ -42,7 +42,7 @@ public class AppModule {
         return  listTrendingAlbumsUseCase;
     }
 
-    @Provides @Singleton public AlbumDetailPresenter provideTrendingMusicPresenter(AlbumDetailPresenterImpl albumDetailPresenter) {
+    @Provides @Singleton public AlbumDetailPresenter provideAlbumDetailPresenter(AlbumDetailPresenterImpl albumDetailPresenter) {
         return albumDetailPresenter;
     }
 
