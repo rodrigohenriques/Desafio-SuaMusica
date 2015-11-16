@@ -12,8 +12,11 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import br.com.suamusica.app.R;
 import br.com.suamusica.app.entities.AlbumDetailViewModel;
+import br.com.suamusica.app.presenter.AlbumDetailPresenter;
 import br.com.suamusica.app.presenter.view.AlbumDetailView;
 import br.com.suamusica.app.ui.custom.PaletteTransformation;
 import butterknife.Bind;
@@ -35,6 +38,9 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView
     @Bind(R.id.imageview_album_detail_cover) ImageView mImageViewAlbumCover;
     @Bind(R.id.view_album_detail_cover_background) View mCoverTextBackground;
     @Bind(R.id.fab_album_detail_favorite) FloatingActionButton mFabFavoriteAlbum;
+
+    @Inject
+    AlbumDetailPresenter mAlbumDetailPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,7 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView
         gd.setCornerRadius(0f);
 
         mCoverTextBackground.setBackground(gd);
+        mAlbumDetailPresenter.attachView(this);
     }
 
     private void initializeDependencies() {
@@ -91,5 +98,10 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView
     @Override
     public void showDetails(AlbumDetailViewModel albumDetailViewModel) {
 
+    }
+
+    @Override
+    public int getAlbumId() {
+        return mAlbumId;
     }
 }

@@ -4,4 +4,5 @@ import br.com.suamusica.app.entities.AlbumDetailViewModel;
 
 public interface AlbumDetailView extends View {
     void showDetails(AlbumDetailViewModel albumDetailViewModel);
+    int getAlbumId();
 }

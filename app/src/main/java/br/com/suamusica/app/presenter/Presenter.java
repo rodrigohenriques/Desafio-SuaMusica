@@ -1,7 +1,5 @@
 package br.com.suamusica.app.presenter;
 
-import br.com.suamusica.app.presenter.view.View;
-
 public interface Presenter {
-
+    String DEFAULT_ERROR_MESSAGE = "Falha na comunicação com o servidor. Tente novamente.";
 }

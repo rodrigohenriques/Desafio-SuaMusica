@@ -77,6 +77,7 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
 
                 @Override
                 public void onException(Exception e) {
+                    showError(DEFAULT_ERROR_MESSAGE);
                 }
 
                 @Override
@@ -121,8 +122,9 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
 
     @Override
     public void clickedAt(AlbumViewModel album, int position) {
-        if (mTrendingMusicView != null)
+        if (mTrendingMusicView != null) {
             mTrendingMusicView.openAlbumDetail(album.getId(), album.getName(), album.getCoverUrl());
+        }
     }
 
     @Override
@@ -133,13 +135,21 @@ public class TrendingAlbumsPresenterImpl implements TrendingAlbumsPresenter {
     }
 
     private void showLoading() {
-        if (mTrendingMusicView != null)
+        if (mTrendingMusicView != null) {
             mTrendingMusicView.showLoading();
+        }
     }
 
     private void hideLoading() {
-        if (mTrendingMusicView != null)
+        if (mTrendingMusicView != null) {
             mTrendingMusicView.hideLoading();
+        }
+    }
+
+    private void showError(String message) {
+        if (mTrendingMusicView != null) {
+            mTrendingMusicView.showError(message);
+        }
     }
 
     private void showData(List<Album> albums) {

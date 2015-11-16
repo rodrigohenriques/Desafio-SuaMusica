@@ -6,8 +6,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.suamusica.data.api.SuaMusicaApi;
+import br.com.suamusica.data.entities.AlbumDetailEntity;
+import br.com.suamusica.data.entities.AlbumDetailEntityMarshaller;
 import br.com.suamusica.data.entities.AlbumEntity;
-import br.com.suamusica.data.entities.AlbumEntityListMarshaller;
+import br.com.suamusica.data.entities.AlbumEntityMarshaller;
+import br.com.suamusica.data.entities.ListMarshaller;
 import br.com.suamusica.domain.entities.Album;
 import br.com.suamusica.domain.entities.AlbumDetail;
 import br.com.suamusica.domain.entities.QueryType;
@@ -35,7 +38,8 @@ public class RemoteAlbumsRepository implements AlbumsRepository {
             if (response.isSuccess()) {
                 List<AlbumEntity> episodeEntities = response.body();
 
-                return new AlbumEntityListMarshaller().marshal(episodeEntities);
+                ListMarshaller<AlbumEntity, Album> listMarshaller = new ListMarshaller<>(new AlbumEntityMarshaller());
+                return listMarshaller.marshal(episodeEntities);
             } else {
                 throw new IOException("could not retrieve albums from sua musica api: " + response.message());
             }
@@ -46,6 +50,21 @@ public class RemoteAlbumsRepository implements AlbumsRepository {
 
     @Override
     public AlbumDetail getAlbumDetailById(int albumId) throws IOException {
-        return null;
+        Call<AlbumDetailEntity> call = mSuaMusicaApi.getAlbumDetailedById(albumId);
+
+        Response<AlbumDetailEntity> response;
+        try {
+            response = call.execute();
+
+            if (response.isSuccess()) {
+                AlbumDetailEntity albumDetailEntity = response.body();
+
+                return new AlbumDetailEntityMarshaller().marshal(albumDetailEntity);
+            } else {
+                throw new IOException("could not retrieve albums from sua musica api: " + response.message());
+            }
+        } catch (IOException e) {
+            throw new IOException("could not retrieve albums from sua musica api: ", e);
+        }
     }
 }

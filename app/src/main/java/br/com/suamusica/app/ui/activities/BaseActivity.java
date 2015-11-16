@@ -2,6 +2,7 @@ package br.com.suamusica.app.ui.activities;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ import br.com.suamusica.app.R;
 import br.com.suamusica.app.di.AppComponent;
 import br.com.suamusica.app.presenter.view.View;
 
-public class BaseActivity extends AppCompatActivity implements View {
+public abstract class BaseActivity extends AppCompatActivity implements View {
 
     protected @Inject Navigator mNavigator;
     protected AppComponent mApplicationComponent;
@@ -39,5 +40,12 @@ public class BaseActivity extends AppCompatActivity implements View {
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void showError(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackbar.setAction("Fechar", null);
+        snackbar.show();
     }
 }
