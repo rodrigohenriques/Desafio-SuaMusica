@@ -107,9 +107,14 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailView
 
     @Override
     public void showDetails(AlbumDetailViewModel albumDetailViewModel) {
-        SongAdapter adapter = new SongAdapter(this, albumDetailViewModel.getSongs());
-        adapter.setOnItemClickListener(this);
-        mRecyclerView.setAdapter(adapter);
+        if (albumDetailViewModel.hasSongs()) {
+            SongAdapter adapter = new SongAdapter(this, albumDetailViewModel.getSongs());
+            adapter.setOnItemClickListener(this);
+            mRecyclerView.setAdapter(adapter);
+        } else {
+            mRecyclerView.setEnabled(false);
+            Snackbar.make(mRecyclerView, "Nenhuma faixa encontrada para este album.", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override

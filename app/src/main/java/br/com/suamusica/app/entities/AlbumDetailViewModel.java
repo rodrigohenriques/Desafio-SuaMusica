@@ -14,6 +14,10 @@ public class AlbumDetailViewModel {
         this.albumDetail = albumDetail;
     }
 
+    public boolean hasSongs() {
+        return albumDetail.songs != null && albumDetail.songs.size() > 0;
+    }
+
     public List<SongViewModel> getSongs() {
         ListMarshaller<Song, SongViewModel> listMarshaller = new ListMarshaller<>(new Marshaller<Song, SongViewModel>() {
             @Override

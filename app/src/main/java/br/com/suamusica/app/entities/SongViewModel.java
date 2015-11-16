@@ -1,5 +1,8 @@
 package br.com.suamusica.app.entities;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import br.com.suamusica.domain.entities.Song;
 
 public class SongViewModel {
@@ -18,6 +21,7 @@ public class SongViewModel {
     }
 
     public String getPlays() {
-        return String.format("%d plays", song.plays);
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMAN);
+        return String.format("%s plays", numberFormat.format(song.plays));
     }
 }
